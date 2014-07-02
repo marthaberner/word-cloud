@@ -1,41 +1,32 @@
 require 'rspec'
 require 'word_cloud'
+require 'json'
 
 describe WordCloud do
   before do
-    @quotes_hash = {
+    @buzzword_hash = {
       "Ila Huels" => [
-      "OPTIMIZE WEB-ENABLED SUPPLY-CHAINS",
-      "brand sexy channels",
-    ],
+        "OPTIMIZE WEB-ENABLED SUPPLY-CHAINS",
+        "brand sexy channels"
+      ],
       "Cristopher Feest" => [
-      "BENCHMARK CROSS-PLATFORM PARTNERSHIPS",
-      "brand sexy channels",
-    ]
+        "brand sexy channels"
+      ]
     }
   end
-  it 'creates a hash of buzz words as keys and empty hash as values' do
-    word_list = WordCloud.new(@quotes_hash)
+
+  it 'creates a hash with the buzzwords as keys, a count of times used, and who used the word' do
+    word_list = WordCloud.new(@buzzword_hash)
 
     expected = {
-      "OPTIMIZE" => {},
-      "WEB-ENABLED" => {},
-      "SUPPLY-CHAINS" => {},
-      "brand" => {},
-      "sexy" => {},
-      "channels" => {},
-      "BENCHMARK" => {},
-      "CROSS-PLATFORM" => {},
-      "PARTNERSHIPS" => {}
+      "optimize" => {:count => 1, :people => ["Ila Huels"]},
+      "web-enabled" => {:count => 1, :people => ["Ila Huels"]},
+      "supply-chains" => {:count => 1, :people => ["Ila Huels"]},
+      "brand" => {:count => 2, :people => ["Ila Huels", "Cristopher Feest"]},
+      "sexy" => {:count => 2, :people => ["Ila Huels", "Cristopher Feest"]},
+      "channels" => {:count => 2, :people => ["Ila Huels", "Cristopher Feest"]}
     }
 
     expect(word_list.buzzify).to eq(expected)
-
-
-    #bring in some test data
-    #turn buzz words into keys
-    #turn names into values
-    #count how many times a word is said
-
   end
 end
